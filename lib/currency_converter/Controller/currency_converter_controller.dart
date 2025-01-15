@@ -10,6 +10,7 @@ class Controller {
   double? exchangeRate;
   String error='';
   String ResultValue='';
+  bool errorHolding=true;
 
   selectBase(Currency? value) {
     if (value==targetCurrency) targetCurrency=baseCurrency;
@@ -24,6 +25,7 @@ class Controller {
 
   updateRate() async {
     exchangeRate = null;
+    errorHolding = true;
     try {
       exchangeRate = await CurrencyConverter.convert(
           from: baseCurrency!,
@@ -40,14 +42,18 @@ class Controller {
   void convert(String value) async {
     try {
       if (exchangeRate == null) throw Exception("Unable to get exchange rate, try again.");
-      if (value=='') ResultValue='';
+      if (value=='') {
+        ResultValue = '';
+        errorHolding = true;
+        return;
+      }
       double result= double.parse(value)*exchangeRate!;
       ResultValue = result.toString();
+      errorHolding = true;
     }
     catch (e) {
-      if (baseCurrency==null || targetCurrency==null) {
-        error = e.toString();
-      }
+      error = e.toString();
+      errorHolding = false;
     }
   }
 

@@ -29,7 +29,6 @@ class _CurrencyConverterState extends State<CurrencyConverter> {
     return Material(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Center(child: Text("CURRENCY EXCHANGE",style: TextStyle(fontWeight: FontWeight.w900,letterSpacing: 2,color: Colors.amber),)),
           const SizedBox(height: 8,),
@@ -123,7 +122,8 @@ class _CurrencyConverterState extends State<CurrencyConverter> {
                 Text(_controller.targetCurrency!.name.toUpperCase())
               ],
             ),
-          )
+          ),
+          _controller.errorHolding?const SizedBox(width: 8):Text(_controller.error,style: TextStyle(color: Colors.red),)
         ],
       ),
     );
